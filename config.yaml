@@ -1,0 +1,114 @@
+# ==========================
+#  PROJECT CONFIGURATION
+#  Remaining Useful Life (RUL)
+# ==========================
+
+project:
+  name: "Remaining-Useful-Life"
+  version: "1.0"
+  author: ""
+
+# ==========================
+#   DATA CONFIG
+# ==========================
+data:
+  dataset_name: "NASA CMAPSS"
+  train_path: "data/train"
+  test_path: "data/test"
+  rul_path: "data/RUL"
+  window_size: 30         # number of time steps for LSTM input window
+  normalize: true         # apply MinMax/Standard scaling
+  scaling_method: "standard"   # "minmax" or "standard"
+
+# Sensors and features
+features:
+  sensor_columns:
+    - s1
+    - s2
+    - s3
+    - s4
+    - s5
+    - s6
+    - s7
+    - s8
+    - s9
+    - s10
+    - s11
+    - s12
+    - s13
+    - s14
+    - s15
+    - s16
+    - s17
+    - s18
+    - s19
+    - s20
+    - s21
+
+  settings_columns:
+    - setting1
+    - setting2
+    - setting3
+
+  label_column: "RUL"
+
+# ==========================
+#   FEATURE ENGINEERING CONFIG
+# ==========================
+feature_engineering:
+  rolling_windows: [5, 10, 20]
+  add_derivatives: true
+  add-statistics: true
+
+# ==========================
+#   MODEL CONFIG
+# ==========================
+model:
+  # -------------------- XGBoost --------------------
+  xgboost:
+    enabled: true
+    params:
+      n_estimators: 500
+      max_depth: 8
+      learning_rate: 0.05
+      subsample: 0.8
+      colsample_bytree: 0.8
+      objective: "reg:squarederror"
+
+  # -------------------- LSTM --------------------
+  lstm:
+    enabled: true
+    input_dim: 21          # number of sensors
+    hidden_units: 64
+    num_layers: 2
+    dropout: 0.2
+    batch_size: 64
+    epochs: 30
+    optimizer: "adam"
+    loss: "mse"
+
+  # -------------------- Fusion --------------------
+  fusion:
+    enabled: true
+    method: "average"      # "average" or "concat"
+
+# ==========================
+#   TRAINING / EVALUATION
+# ==========================
+training:
+  validation_split: 0.1
+  shuffle: true
+  random_seed: 42
+
+evaluation:
+  metrics:
+    - RMSE
+    - MAE
+
+# ==========================
+#   OUTPUT CONFIG
+# ==========================
+output:
+  save_models: true
+  model_dir: "models"
+  logs_dir: "logs"

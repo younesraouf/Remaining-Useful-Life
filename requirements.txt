@@ -1,0 +1,31 @@
+# --- Core scientific stack ---
+numpy
+pandas
+scipy
+scikit-learn
+
+# --- Machine Learning ---
+xgboost
+imbalanced-learn
+joblib
+
+# --- Deep Learning ---
+tensorflow
+
+# --- Visualization ---
+matplotlib
+seaborn
+plotly
+
+# --- API ---
+fastapi
+uvicorn
+pydantic
+python-multipart
+
+# --- Dev Tools ---
+jupyter
+notebook
+tqdm
+pytest
+black
